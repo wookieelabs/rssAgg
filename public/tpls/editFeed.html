@@ -1,0 +1,52 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3><%= (feed_id ? 'Edit Feed' : 'Add Feed')%></h3>
+</div>
+
+<div class="modal-body">
+    <form id="editFeed" class="form-horizontal" action="/">
+        
+        <% if (!feed_id) { %>
+        <div class="control-group">
+            <label class="control-label" for="inputURL">URL</label>
+                <div class="controls">
+                    <input type="url" required="required" name="url" autocomplete="off"
+                           placeholder="Enter URL here..." />
+            </div>
+        </div>
+        <% } %>
+
+         <div class="control-group">
+            <label class="control-label" for="inputEmail">Title</label>
+            <div class="controls">
+                <input type="text" value="<%- title %>"
+                       name="title" autocomplete="off"
+                       placeholder="Enter new title here..." />
+            </div>
+        </div>
+
+         <div class="control-group">
+            <label class="control-label" for="inputEmail">Folder</label>
+            <div class="controls">
+                <select name="folder">
+                    <option value="0">Without folder...</option>
+                    <% folders.forEach(function (folder) { %>
+                    <option value="<%- folder.id %>"
+                            <%= (folder_id == folder.id ? 'selected="selected"' : '') %> >
+                        <%- folder.name %>
+                    </option>
+                    <% }) %>
+                </select>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="modal-footer">
+    <button type="submit" class="btn btn-primary" form="editFeed">Save</button>
+    <a href="#" class="btn">Close</a>
+
+    <% if (feed_id) { %>
+        <button id="delFeed" class="btn btn-danger pull-left">Unsubscribe</button>
+    <% } %>
+</div>

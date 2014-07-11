@@ -1,0 +1,10 @@
+<li class="folder" data-state="open" data-folderId="<%= folder.folder_id %>">
+    <i class="icon-cog pull-right"></i>
+    <i class="icon-folder-open" ></i>
+    <span class="name"><%- folder.name %></span>
+    <ul class="nav nav-list">
+        <% folder.feeds.forEach(function (feed) { %>
+            <%= _.template(TPLS.feed, feed) %>
+        <% }) %>
+    </ul>
+</li>

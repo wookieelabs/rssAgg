@@ -1,0 +1,10 @@
+<% var unread = unread || 0 %>
+
+<li class="<%= (feed_id <= 0 ? 'not-sortable' : 'feed') %>" href="/items/<%= feed_id %>" data-id="<%= feed_id %>">
+    <% if (link) { %>
+    <i class="icon-cog edit-feed pull-right"></i>
+    <% } %>
+    <span class="badge badge-info pull-right"><%- unread ? unread : '' %></span>        
+    
+    <a href="javascript: void 0;"><%- title %></a>
+</li>

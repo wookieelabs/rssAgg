@@ -1,0 +1,15 @@
+{
+    "name": "rssAgg",
+    "description": "",
+    "version": "0.0.1",
+    "dependencies": {
+        "ejs": "latest",
+        "mysql": "latest",
+        "express": "3.x",
+        "sync": "latest",
+        "xml2js": "latest",
+        "moment": "latest",
+        "crypto": "latest",
+        "cron": "latest"
+    }
+}

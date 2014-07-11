@@ -1,0 +1,20 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3><%= (id ? 'Edit folder' : 'Create Folder') %></h3>
+</div>
+
+<div class="modal-body">
+    <form id="editFolder">
+        <input class="input-xxlarge" required="required" type="text"
+               name="name" autocomplete="off" value="<%- name %>"
+               placeholder="Enter folder name here...">
+    </form>
+</div>
+
+<div class="modal-footer">
+    <button type="submit" class="btn btn-primary" form="editFolder">Save</button>
+    <a href="#" class="btn">Close</a>
+    <% if (id) { %>
+        <button id="delFolder" class="btn btn-danger pull-left">Delete folder</button>
+    <% } %>
+</div>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Admin control panel</title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="css/admin.css" />
+    <script type="text/javascript" src="/js/jquery-2.0.3.js"></script>
+    <script type="text/javascript" src="/js/underscore.js"></script>
+    <script type="text/javascript" src="/js/backbone.js"></script>
+    <script type="text/javascript" src="/js/admin.js"></script>
+</head>
+
+<body>
+    <script type="text/tpl" id="table">
+        <tr><td>{%= id %}</td><td>{%= username %}</td><td>{%= SU %}</td><td><button class="btn btn-danger" data-id="{%= id %}">Delete</button></td></tr>
+    </script>
+    
+    <div class="row-fluid">
+        <div id="nav" class="span4 well sidebar-nav">
+            <ul class="nav nav-list">
+                <li data-role="add" class="active"><a>Add user</a></li>
+                <li data-role="del"><a>Delete user</a></li>
+                <li data-role="regToggle"><a>Close registration</a></li>
+            </ul>
+        </div>
+
+        <div id="control" class="span8 well sidebar-nav">
+            <div id="add">
+                <form>
+                    E-mail: <input name="username" type="email" class="input-block-level"><br>
+                    Password: <input name="pw" type="password" class="input-block-level"><br>
+                    Confirm password: <input name="cpw" type="password" class="input-block-level"><br>
+                    <button class="btn" type="submit">Submit</button>
+                </form>
+            </div>
+            
+            <div id="del">
+                <table class="table table-hover">
+                    <tr>
+                        <th>Id</th>
+                        <th>Login</th>
+                        <th>SU</th>
+                        <th></th>
+                    </tr>
+                </table>
+            </div>
+            
+            <div id="regToggle">
+                
+            </div>
+        </div>
+        
+    </div>
+
+</body>

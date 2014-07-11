@@ -1,0 +1,5 @@
+<% if (model.type == 'folder') { %>
+    <%= _.template(TPLS.feedFolder, {folder: model, TPLS: TPLS}) %>
+<% } else { %>
+    <%= _.template(TPLS.feed, model) %>
+<% } %>

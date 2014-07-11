@@ -1,0 +1,26 @@
+<li data-id="<%= id %>" class="<%= (unread == 1  ? '' : 'read')%>">
+    <span>
+        <span class="pubDate pull-right"><%- moment(pubDate).format('lll') %></span>
+        <span class="head">
+            <i class="<%= (stared == '1' ? 'icon-star' : 'icon-star-empty')%>"></i>
+            <span class="title"><%- title %></span>
+            <span class="author"> <%- (author ? '- '+ author : '')%></span>
+        </span>
+        <% description = description.replace(/(<([^>]+)>)/ig,"").replace(/(&([a-z]+);)/ig,""); %>
+        <span class="teaser">- <%- description.length < 200 ? description : description.substring(0, 197) + '...' %></span>
+    </span>
+    <div class="description">
+        <%= description %>
+        <ul class="item-menu inline">
+            <li data-itemId="<%= id %>" class="star">
+                <i class="<%= (stared == '1' ? 'icon-star' : 'icon-star-empty')%>"></i>
+                <span><%= (stared == 1 ? 'Unstar' : 'Star')%></span>
+            </li>
+            <li data-itemId="<%= id %>" class="unread">
+                <i class="<%= (unread === 0 ? 'icon-eye-open' : 'icon-eye-close')%>"></i>
+                <span><%= (unread === 0 ? 'Unread' : 'Read')%></span>
+            </li>
+            <li><i class="icon-heart"></i>share</li>
+        </ul>
+    </div>
+</li>

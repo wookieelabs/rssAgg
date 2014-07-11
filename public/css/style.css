@@ -1,0 +1,273 @@
+body {
+    padding-top: 50px;
+}
+.form-signin {
+    background-color: #FFFFFF;
+    border: 1px solid #E5E5E5;
+    border-radius: 5px 5px 5px 5px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    margin: 0 auto 20px;
+    max-width: 300px;
+    padding: 19px 29px 29px;
+    margin-top: 150px;
+    text-align: left;
+}
+
+.navbar-inner .brand {
+    margin-left: 0px;
+    color: #ff8000;
+}
+.container-fluid {
+    padding: 0;
+}
+#login-form {
+    background-color: #F5F5F5;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    text-align: center;
+}
+
+#loader {
+    display: block;
+    margin: 0 auto;
+    width: 2.5%;
+    border: 0px;
+}
+
+#item-toolbar {
+    background-color: #707070;
+    width: 100%;
+    margin-bottom: 0px;
+    padding: 7px 19px;
+    border-width: 0px;
+    border-radius: 5px 5px 0 0 !important;
+}
+
+#item-toolbar i:hover {
+    background-color: #999999;
+    border-radius: 5px;
+}
+
+#item-toolbar > ul {
+    margin-bottom: 0px;
+}
+
+#item-toolbar form, #item-toolbar select {
+    margin-bottom: 0px;
+}
+
+#itemError {
+    display: none;
+    text-align: center;
+}
+
+#items {
+    background-color: #FFFFFF;
+    margin-bottom: 0;
+    margin-left: 25px;
+    padding: 0;
+}
+
+#items:last-child {
+    border: 0px;
+}
+
+#itemsList {
+    overflow-y: auto;
+    list-style: none;
+    margin: 0;
+}
+
+#itemsList > li {
+    border-bottom: 1px solid #ccc;
+    padding: 3px;
+}
+#itemsList > li:last-child {
+    border: 0 none;
+}
+
+.selected {
+    background-color: #fff;
+}
+
+.read {
+    background-color: #F5F5F5;
+    color: #777777;
+}
+
+.author {
+    font-size: 11px;
+}
+
+.description {
+    display: none;
+    text-indent: 20px;
+}
+
+.teaser {
+    font-size: 11px;
+}
+
+.pubDate {
+    padding-left: 10px;
+}
+
+.title {
+    font-weight: bold;
+}
+.selected .head {
+    cursor: pointer;
+    border-bottom: 1px solid #666;
+    display: block;
+}
+#itemsList .item-menu li {
+    cursor: pointer;
+}
+
+hr {
+    margin-bottom: 5px;
+    margin-top: 5px;
+    width: 95%;
+}
+
+.error {
+    text-align: center;
+}
+
+#register-form {
+    display: none;
+    background-color: #F5F5F5;
+    bottom: 0;
+    display: none;
+    left: 0;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    top: 0;
+}
+
+.form-register {
+    background-color: #FFFFFF;
+    border: 1px solid #E5E5E5;
+    border-radius: 5px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    margin: 150px auto 20px;
+    max-width: 300px;
+    padding: 19px 29px 29px;
+    text-align: left;
+}
+
+.icon-off {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    display: none;
+}
+
+.icon-off:hover {
+    border-radius: 7px;
+    background-color: #0088cc;
+}
+
+.edit-feed {
+    margin-top: 5px;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+#feeds .nav-list {
+    padding-right: 0;
+}
+#feeds .icon-cog {
+    display: none;
+}
+#feeds li:hover > .icon-cog {
+    display: block;
+}
+
+#feeds .icon-ok {
+    display: none;
+}
+#feeds li:hover > .icon-ok {
+    display: block;
+}
+
+#addFeed div.modal-body {
+    padding: 5px 5px 5px 10px;
+}
+
+#addFeed div.modal-footer {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+#addFeedForm {
+    margin: 5px;
+}
+
+#addFeedForm > input {
+    padding: 1px;
+    margin-bottom: 10px;
+}
+
+#editTitle {
+    margin-bottom: 5px;
+}
+
+.iconHolder li {
+    width: 49%;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    text-align: center;
+    border-radius: 5px 5px 0 0;
+}
+
+.iconHolder li:hover {
+    background-color: #EEEEEE;
+}
+
+.iconHolder:first-child {
+    margin-left: -15px;
+}
+
+.iconHolder:last-child {
+    margin-right: -15px;
+}
+
+#feedsList {
+    padding-top: 5px;
+}
+
+#createFolder div.modal-body {
+    padding: 5px 5px 5px 10px;
+}
+
+#createFolder div.modal-footer {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+#createFolderForm {
+    margin-bottom: 0px;
+}
+
+#createFolderForm input {
+    padding-right: 0px;
+    border-width: 1px;
+    padding-left: 4px;
+}
+
+.ui-placeholder {
+    height : 20px;
+    width  : 294px;
+    background-color: #0088cc;
+}
+
+span.badge {
+    margin-top: 3px;
+}

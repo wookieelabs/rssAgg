@@ -1,0 +1,110 @@
+<!DOCTYPE html> 
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>rssAgg</title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <script type="text/javascript" src="/js/lib/jquery-2.0.3.js"></script>
+    <script type="text/javascript" src="/js/lib/jquery-ui-1.10.4.js"></script>
+    <script type="text/javascript" src="/js/lib/underscore.js"></script>
+    <script type="text/javascript" src="/js/lib/backbone.js"></script>
+    <script type="text/javascript" src="/js/lib/moment.js"></script>
+    <script type="text/javascript" src="/js/lib/bootstrap.js"></script>
+
+    <script type="text/javascript" src="/js/main.js"></script>
+</head>
+
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container-fluid">
+                <a class="brand" href="/">rss</a>
+                <i class="icon-off" id="log-out"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div id="feeds" class="span3 well sidebar-nav">
+                
+                <ul id="feedsList" class="nav nav-list">
+                    <li class="not-sortable" data-role="iconHolder">
+                        <ul class="inline iconHolder">
+                            <li data-role="addFeed">
+                                <i class="icon-plus"></i>
+                            </li>
+                            <li data-role="createFolder" class="pull-right system">
+                                <i class="icon-plus-sign"></i>
+                                <i class="icon-folder-open"></i>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                
+            </div>
+            
+            <div id="items" class="span9 well sidebar-nav">
+                <div id="item-toolbar" class="span9 well sidebar-nav">
+                    <ul class="inline pull-right">
+                        <li>
+                            <form id="order-by">
+                                Order by:
+                                <select>
+                                    <option>Date</option>
+                                    <option>New</option>
+                                </select>
+                            </form>
+                        </li>
+                        <li><i class="icon-ok read-all pull-right"></i></li>
+                    </ul>
+                </div>
+
+                <ul id="itemsList" class="table">
+                </ul>
+
+                <div id="itemError">
+                    <span><h2 class="text-info">No items, sry</h2></span>
+                </div>
+                
+                <img id="loader" src="img/loader.gif">
+            </div>
+        </div>
+    </div>
+
+    <div class="modal hide fade" id="modal"></div>
+
+    <div id="login-form">
+        <form class="form-signin">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#">Sign in</a>
+                </li>
+                <li><a href="#">Register</a></li>
+            </ul>
+            <div class='text-error error'></div>
+            E-mail: <input name="username" class="input-block-level" type="email"><br>
+            Password: <input name="password" type="password" class="input-block-level"><br>
+            <button class="btn">Sign In</button>
+        </form>
+    </div>
+    
+    <div id="register-form">
+        <form class="form-register">
+            <ul class="nav nav-tabs">
+                <li>
+                    <a href="#">Sign in</a>
+                </li>
+                <li class="active"><a href="#">Register</a></li>
+            </ul>
+            
+            <div class="text-error error"></div>
+            E-mail: <input type="email" class="input-block-level" name="username"><br>
+            Password: <input type="password" class="input-block-level" name="pw"><br>
+            Confirm password: <input type="password" class="input-block-level" name="cpw"><br>
+            <button class="btn">Register</button>
+        </form>
+    </div>
+</body>
+</html>
