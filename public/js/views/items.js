@@ -23,7 +23,8 @@ var rss = (function (rss) {
             this.itemsList.on('scroll', this.scrollCheck.bind(this));
             
             this.TPLS = {
-                item: rss.load('/tpls/item.html')
+                item: rss.load('/tpls/item.html'),
+                share: rss.load('/tpls/share.html')
             };
             this.updating = false;
             this.order =  localStorage.orderBy || this.$el.find('#item-toolbar form#order-by select').val().toLowerCase();
@@ -130,6 +131,19 @@ var rss = (function (rss) {
             $read.find('i')
                 .removeClass('icon-eye-close')
                 .addClass('icon-eye-open');
+
+            //  add share function
+            $el.find('li.share').popover({
+                html: true,
+                trigger: 'click',
+                placement: 'bottom',
+                content: this.getShareContent(id)
+            }).on('show', function () {
+                setTimeout(function () {
+                    stButtons.locateElements();
+                }, 50);
+            })
+
             return false;
         },
         deselectItem: function (fn) {
@@ -200,13 +214,20 @@ var rss = (function (rss) {
             window.open(evt.target.href, '_blank');
             return false;
         },
+        getShareContent: function (id) {
+            // return template of selected item
+            return (_.template(
+                this.TPLS.share,
+                this.collection.get(id).toJSON()
+            ));
+        },
         events: {
-            'click #itemsList>li:not(.selected)': 'selectItem',
-            'click #itemsList>li.selected .head': 'deselectItem',
-            'click li.star': 'toggleStar',
-            'click li.unread': 'toggleRead',
-            'click #itemsList>li.selected a': 'clickLink'
-            //'scroll #itemsList': 'scrollCheck'
+            'click #itemsList>li:not(.selected)'        : 'selectItem',
+            'click #itemsList>li.selected .head'        : 'deselectItem',
+            'click #itemsList>li.selected a'            : 'clickLink',
+            'click li.star'                             : 'toggleStar',
+            'click li.unread'                           : 'toggleRead',
+            'click #itemsList>li.selected .share'       : 'share'
         }
     });
     

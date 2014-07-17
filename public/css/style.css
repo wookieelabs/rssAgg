@@ -271,3 +271,25 @@ hr {
 span.badge {
     margin-top: 3px;
 }
+
+.stIcon > span {
+    text-decoration:none;
+    color:#000000;
+    display:inline-block;
+    cursor:pointer;
+}
+
+.stIcon img {
+    position: absolute;
+    top: -7px;
+    right: -7px;
+    width: 19px;
+    height: 19px;
+    max-width: 19px;
+    max-height: 19px;
+    display: none;
+}
+
+li.share div.popover-content {
+    text-indent: 0px;
+}
