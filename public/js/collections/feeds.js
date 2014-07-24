@@ -15,8 +15,7 @@ var rss = (function (rss) {
             },
             initialize: function () {
                 this.on('change:unread', function (model, value) {
-                    var feedId = model.get('feed_id');
-                    $('#feedsList li[data-id=' + feedId + '] > span.badge').html(value === 0 ? null : value);
+                    app.views.feedsView.redrawBadge(model.get('feed_id'), value);
                 });
             }
         }),

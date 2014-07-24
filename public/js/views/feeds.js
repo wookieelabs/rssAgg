@@ -136,6 +136,9 @@ var rss = (function (rss) {
             app.views.editFolder.show($getParent(evt.target, 'li').data('folderid'));
             return false;
         },
+        redrawBadge: function (id, value) {
+            this.$el.find('li[data-id=' + id + '] > span.badge').html(value === 0 ? null : value); 
+        },
         events: {
             'click #feedsList li:not(.folder, ul.iconHolder li)': 'feedClick',
             'click #feedsList .edit-feed': 'editFeed',
