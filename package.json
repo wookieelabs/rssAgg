@@ -10,6 +10,7 @@
         "xml2js": "latest",
         "moment": "latest",
         "crypto": "latest",
-        "cron": "latest"
+        "cron": "latest",
+        "iconv": "latest"
     }
 }
