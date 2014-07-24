@@ -11,13 +11,42 @@ function getOTT() {
     return shasum.digest('hex');
 }
 
-exports.checkOTT = function checkOTT(userId, ott) {
-    if (userToOTT[userId] == ott) {
-        userToOTT[userId] = getOTT();
-        return userToOTT[userId];
+exports.checkOTT = function checkOTT(req, res, next) {
+    var ott = req.query.ott
+      , uid = req.query.uid;
+
+    if (userToOTT[uid] == ott) {
+        userToOTT[uid] = getOTT();
+        res.ott = userToOTT[uid];
+        next();
     } else {
-        delete userToOTT[userId];
-        return false;
+        delete userToOTT[uid];
+        res.status(401);
+        res.json({
+            error: 'Wrong token.'
+        });
+    }
+};
+
+exports.sessionCheck = function (req, res) {
+    var uid = req.query.uid
+      , ott = req.query.ott;
+    if (userToOTT[uid] == ott) {
+        userToOTT[uid] = getOTT();
+        req.db.query('SELECT id, username FROM  users WHERE id = ?', [uid], function (err, result) {
+            if (err) {
+                throw err;
+            }
+            result = result[0];
+            result.ott = userToOTT[uid];;
+            res.json(result);
+        });
+    } else {
+        delete userToOTT[uid];
+        res.status(401);
+        res.json({
+            error: 'Wrong token.'
+        });
     }
 };
 
