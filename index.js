@@ -6,12 +6,12 @@ var express = require('express')
       , item: require('./api/item')
       , folder: require('./api/folder')
     }
-  , config = require('./config.js')
+  , config = require('./config.json')
   , mysql = require('mysql')
   , CronJob = require('cron').CronJob;
 
 
-var db = mysql.createConnection(config.db);
+var db = mysql.createConnection(config.dataBase);
 db.connect();
 
 app.engine('.html', require('ejs').__express);
