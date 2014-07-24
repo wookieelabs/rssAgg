@@ -13,6 +13,21 @@
     <script type="text/javascript" src="/js/lib/bootstrap.js"></script>
     <!----------------------Share scripts---------------------->
     <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+
+    <script type="text/javascript">
+        var switchTo5x=true;
+
+        stLight.options({
+            tracking: null,
+            doneScreen: false,
+            onhover: false,
+            doNotHash: false,
+            doNotCopy: false,
+            hashAddressBar: false,
+            popup: true,
+            publisher: '<%- stPubKey %>'
+        });
+    </script>
     <!----------------------App script----------------------->
     <script type="text/javascript" src="/js/main.js"></script>
 </head>
@@ -69,7 +84,7 @@
                 <div id="itemError">
                     <span><h2 class="text-info">No items, sry</h2></span>
                 </div>
-                
+
                 <img id="loader" src="img/loader.gif">
             </div>
         </div>
@@ -91,7 +106,7 @@
             <button class="btn">Sign In</button>
         </form>
     </div>
-    
+
     <div id="register-form">
         <form class="form-register">
             <ul class="nav nav-tabs">
@@ -100,7 +115,7 @@
                 </li>
                 <li class="active"><a href="#">Register</a></li>
             </ul>
-            
+
             <div class="text-error error"></div>
             E-mail: <input type="email" class="input-block-level" name="username"><br>
             Password: <input type="password" class="input-block-level" name="pw"><br>

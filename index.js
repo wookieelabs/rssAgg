@@ -6,16 +6,12 @@ var express = require('express')
       , item: require('./api/item')
       , folder: require('./api/folder')
     }
+  , config = require('./config.json')
   , mysql = require('mysql')
   , CronJob = require('cron').CronJob;
 
 
-var db = mysql.createConnection({
-    host     : 'localhost',
-    user     : 'root',
-    database : 'rss',
-});
-
+var db = mysql.createConnection(config.dataBase);
 db.connect();
 
 app.engine('.html', require('ejs').__express);
@@ -45,7 +41,9 @@ function checkOTT(req, res, next) {
 }
 
 app.get('/', function index(req, res) {
-    res.render('index');
+    res.render('index', {
+        stPubKey : config.stPubKey
+    });
 });
 
 app.get('/admControl', function index(req, res) {
@@ -102,7 +100,7 @@ app.all('*', function (req, res) {
 (function updateItems() {
     console.log('Updaiting items');
     api.item.updateItems(db);
-    
+
     new CronJob('00 */5 * * * *', function () {
         console.log('Updaiting items');
         api.item.updateItems(db);

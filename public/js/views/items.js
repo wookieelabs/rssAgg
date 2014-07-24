@@ -12,16 +12,16 @@ var rss = (function (rss) {
             var updateSize = function () {
                 this.$el.find('#itemsList').css('max-height', $(window).height() - 125);
             }.bind(this);
-    
+
             updateSize();
             $(window).resize(updateSize);
 
             this.$('#loader').hide();
             this.listenTo(this.collection, 'add', this.renderItem);
             this.itemsList = this.$('#itemsList');
-            
+
             this.itemsList.on('scroll', this.scrollCheck.bind(this));
-            
+
             this.TPLS = {
                 item: rss.load('/tpls/item.html'),
                 share: rss.load('/tpls/share.html')
@@ -107,20 +107,20 @@ var rss = (function (rss) {
             if (this.sectedItem) {
                 this.deselectItem();
             }
-    
+
             var $el = $getParent(evt.target, 'li'),
                 id = $el.data('id'),
                 item = this.collection.get(id);
             this.sectedItem = item;
-            this.sectedItem.oldAtt = this.sectedItem.attributes
-    
+            this.sectedItem.oldAtt = this.sectedItem.attributes;
+
             $el.addClass('selected');
             $el.find('.teaser').hide();
             $el.find('.description').show();
             $el.find('.head .title').html(
                 '<a href="' + item.get('link') + '" target="_blank">' + item.get('title') + '</a>'
             );
-    
+
             if (this.collection.get(id).attributes.unread == !null ||
                 !(this.collection.get(id).attributes.unread === 0)) {
                 this.collection.get(id).set('unread', 0);
@@ -142,7 +142,7 @@ var rss = (function (rss) {
                 setTimeout(function () {
                     stButtons.locateElements();
                 }, 50);
-            })
+            });
 
             return false;
         },
@@ -152,7 +152,7 @@ var rss = (function (rss) {
             }
             var feedId = this.sectedItem.attributes.feed_id,
                 unread;
-                
+
             if (this.sectedItem.hasChanged() && !this.sectedItem.hasChanged().ott) {
                 if (this.sectedItem.changedAttributes().unread === 0) {
                     unread = app.views.feedsView.collection.get(feedId).attributes.unread -= 1;
@@ -178,7 +178,7 @@ var rss = (function (rss) {
                 $icon = $li.find('i'),
                 $headIcon = $('.selected .head i'),
                 model = this.collection.get($li.data('itemid'));
-    
+
             if (model.get('stared')) {
                 $headIcon.removeClass('icon-star').addClass('icon-star-empty');
                 $icon.removeClass('icon-star').addClass('icon-star-empty');
@@ -196,13 +196,13 @@ var rss = (function (rss) {
                 $text = $li.find('span'),
                 $icon = $li.find('i'),
                 model = this.collection.get($li.data('itemid'));
-    
+
             if (model.get('unread')) {
                 // set unread
                 $icon.removeClass('icon-eye-close').addClass('icon-eye-open');
                 $text.text('Unread');
                 model.set('unread', 0);
-                
+
             } else {
                 // set read
                 $icon.removeClass('icon-eye-open').addClass('icon-eye-close');
@@ -222,14 +222,14 @@ var rss = (function (rss) {
             ));
         },
         events: {
-            'click #itemsList>li:not(.selected)'        : 'selectItem',
-            'click #itemsList>li.selected .head'        : 'deselectItem',
-            'click #itemsList>li.selected a'            : 'clickLink',
-            'click li.star'                             : 'toggleStar',
-            'click li.unread'                           : 'toggleRead',
-            'click #itemsList>li.selected .share'       : 'share'
+            'click #itemsList>li:not(.selected)': 'selectItem',
+            'click #itemsList>li.selected .head': 'deselectItem',
+            'click #itemsList>li.selected a': 'clickLink',
+            'click li.star': 'toggleStar',
+            'click li.unread': 'toggleRead',
+            'click #itemsList>li.selected .share': 'share'
         }
     });
-    
+
     return rss;
 }(rss || {}));
