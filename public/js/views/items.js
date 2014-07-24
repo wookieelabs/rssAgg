@@ -121,11 +121,6 @@ var rss = (function (rss) {
                 '<a href="' + item.get('link') + '" target="_blank">' + item.get('title') + '</a>'
             );
 
-            if (this.collection.get(id).attributes.unread == !null ||
-                !(this.collection.get(id).attributes.unread === 0)) {
-                this.collection.get(id).set('unread', 0);
-            }
-
             var $read = $el.find('.item-menu li.unread');
             $read.find('span').text('Unread');
             $read.find('i')
@@ -144,25 +139,29 @@ var rss = (function (rss) {
                 }, 50);
             });
 
+            if (this.collection.get(id).attributes.unread === null 
+            || this.collection.get(id).attributes.unread === 0) {
+                return false;
+            }
+
+            this.collection.get(id).set('unread', 0);
             return false;
         },
         deselectItem: function (fn) {
             if (!this.sectedItem) {
                 return false;
             }
-            var feedId = this.sectedItem.attributes.feed_id,
-                unread;
+            var feedId = this.sectedItem.attributes.feed_id
+              , unread = app.views.feedsView.collection.get(feedId).attributes.unread;
 
             if (this.sectedItem.hasChanged() && !this.sectedItem.hasChanged().ott) {
-                if (this.sectedItem.changedAttributes().unread === 0) {
-                    unread = app.views.feedsView.collection.get(feedId).attributes.unread -= 1;
-                    app.views.feedsView.$el.find('li[data-id =' + feedId + '] span').html(unread > 0 ? unread : '');
-                } else if (this.sectedItem.changedAttributes().unread == 1) {
-                    unread = app.views.feedsView.collection.get(feedId).attributes.unread += 1;
-                    app.views.feedsView.$el.find('li[data-id =' + feedId + '] span').html(unread > 0 ? unread : '');
+                if (this.sectedItem.changedAttributes().unread) {
+                    app.views.feedsView.collection.get(feedId).set('unread', ++unread);
+                } else if (this.sectedItem.changedAttributes().unread === 0) {
+                    app.views.feedsView.collection.get(feedId).set('unread', --unread);
                 }
 
-                if (fn && (typeof fn) == 'function') {
+                if (fn && typeof(fn) == 'function') {
                     this.sectedItem.save(null, {success: fn});
                 } else {
                     this.sectedItem.save();

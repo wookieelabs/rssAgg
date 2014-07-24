@@ -12,6 +12,12 @@ var rss = (function (rss) {
             },
             url: function () {
                 return '/feeds/' + this.attributes.feed_id;
+            },
+            initialize: function () {
+                this.on('change:unread', function (model, value) {
+                    var feedId = model.get('feed_id');
+                    $('#feedsList li[data-id=' + feedId + '] > span.badge').html(value === 0 ? null : value);
+                });
             }
         }),
         parse: function (resp) {
