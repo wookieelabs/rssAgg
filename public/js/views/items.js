@@ -112,7 +112,7 @@ var rss = (function (rss) {
                 id = $el.data('id'),
                 item = this.collection.get(id);
             this.sectedItem = item;
-            this.sectedItem.oldAtt = this.sectedItem.attributes;
+            this.sectedItem.oldUnread = this.sectedItem.get('unread');
 
             $el.addClass('selected');
             $el.find('.teaser').hide();
@@ -139,26 +139,25 @@ var rss = (function (rss) {
                 }, 50);
             });
 
-            if (this.collection.get(id).attributes.unread === null 
-            || this.collection.get(id).attributes.unread === 0) {
-                return false;
+            if (this.collection.get(id).get('unread')) {
+                this.collection.get(id).set('unread', 0);
             }
-
-            this.collection.get(id).set('unread', 0);
             return false;
         },
         deselectItem: function (fn) {
             if (!this.sectedItem) {
                 return false;
             }
-            var feedId = this.sectedItem.attributes.feed_id
-              , unread = app.views.feedsView.collection.get(feedId).attributes.unread;
+            var feedId = this.sectedItem.get('feed_id')
+              , feedUnread = app.views.feedsView.collection.get(feedId).get('unread')
+              , unread = this.sectedItem.get('unread')
+              , oldUnread = this.sectedItem.oldUnread;
 
             if (this.sectedItem.hasChanged() && !this.sectedItem.hasChanged().ott) {
-                if (this.sectedItem.changedAttributes().unread) {
-                    app.views.feedsView.collection.get(feedId).set('unread', ++unread);
+                if (this.sectedItem.changedAttributes().unread && !(unread == oldUnread)) {
+                    app.views.feedsView.collection.get(feedId).set('unread', ++feedUnread);
                 } else if (this.sectedItem.changedAttributes().unread === 0) {
-                    app.views.feedsView.collection.get(feedId).set('unread', --unread);
+                    app.views.feedsView.collection.get(feedId).set('unread', --feedUnread);
                 }
 
                 if (typeof fn == 'function') {
