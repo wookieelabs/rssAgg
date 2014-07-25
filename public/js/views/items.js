@@ -161,7 +161,7 @@ var rss = (function (rss) {
                     app.views.feedsView.collection.get(feedId).set('unread', --unread);
                 }
 
-                if (fn && typeof(fn) == 'function') {
+                if (typeof fn == 'function') {
                     this.sectedItem.save(null, {success: fn});
                 } else {
                     this.sectedItem.save();

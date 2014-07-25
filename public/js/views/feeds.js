@@ -16,6 +16,7 @@ var rss = (function (rss) {
                 feed: rss.load('/tpls/feed.html'),
                 feedFolder: rss.load('/tpls/feedFolder.html')
             };
+            this.listenTo(this.collection, 'change:unread', this.redrawBadge);
         },
         initializePositioning: function () {
             this.$el.find('ul.nav').sortable({
@@ -136,7 +137,8 @@ var rss = (function (rss) {
             app.views.editFolder.show($getParent(evt.target, 'li').data('folderid'));
             return false;
         },
-        redrawBadge: function (id, value) {
+        redrawBadge: function (model, value) {
+            var id = model.get('feed_id');
             this.$el.find('li[data-id=' + id + '] > span.badge').html(value === 0 ? null : value); 
         },
         events: {

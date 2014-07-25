@@ -12,11 +12,6 @@ var rss = (function (rss) {
             },
             url: function () {
                 return '/feeds/' + this.attributes.feed_id;
-            },
-            initialize: function () {
-                this.on('change:unread', function (model, value) {
-                    app.views.feedsView.redrawBadge(model.get('feed_id'), value);
-                });
             }
         }),
         parse: function (resp) {
