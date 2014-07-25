@@ -16,6 +16,12 @@ var rss = (function (rss) {
                 feed: rss.load('/tpls/feed.html'),
                 feedFolder: rss.load('/tpls/feedFolder.html')
             };
+            this.on('item-change:unread', function (unread, feed_id) {
+                var mdl = this.collection.get(feed_id),
+                    cnt = mdl.get('unread');
+
+                mdl.set('unread', unread ? cnt - 1 : cnt + 1);
+            });
             this.listenTo(this.collection, 'change:unread', this.redrawBadge);
         },
         initializePositioning: function () {
@@ -139,7 +145,7 @@ var rss = (function (rss) {
         },
         redrawBadge: function (model, value) {
             var id = model.get('feed_id');
-            this.$el.find('li[data-id=' + id + '] > span.badge').html(value === 0 ? null : value); 
+            this.$el.find('li[data-id=' + id + '] > span.badge').html(value ? value: ''); 
         },
         events: {
             'click #feedsList li:not(.folder, ul.iconHolder li)': 'feedClick',
