@@ -195,12 +195,10 @@ exports.showStared = function showStared(req, res) {
 
 exports.save = function save(req, res) {
     sync(function () {
-        var stared = req.body.stared ? req.body.stared : 0,
-            unread = req.body.unread ? req.body.unread : 0;
-        if (req.body.stared === 0 && req.body.unread === 0) {
+        if (!req.body.stared && !req.body.unread) {
             req.db.query.sync(req.db, 'DELETE FROM `users_items` WHERE user_id = ? AND item_id = ?', [req.query.uid, req.params.id]);
         } else {
-            req.db.query.sync(req.db, 'REPLACE INTO `users_items` VALUES (?, ?, ?, ?)', [req.query.uid, req.params.id, stared, unread]);
+            req.db.query.sync(req.db, 'REPLACE INTO `users_items` VALUES (?, ?, ?, ?)', [req.query.uid, req.params.id, req.body.stared, req.body.unread]);
         }
 
         res.json({
