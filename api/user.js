@@ -11,16 +11,22 @@ function getOTT() {
     return shasum.digest('hex');
 }
 
-exports.checkOTT = function checkOTT(req, res, next) {
-    var ott = req.query.ott
-      , uid = req.query.uid;
-
+function generateOTT(uid, ott) {
     if (userToOTT[uid] == ott) {
         userToOTT[uid] = getOTT();
-        res.ott = userToOTT[uid];
-        next();
+        return userToOTT[uid]; 
     } else {
         delete userToOTT[uid];
+        return false;
+    } 
+}
+
+exports.checkOTT = function checkOTT(req, res, next) {
+    var ott = generateOTT(req.query.uid, req.query.ott);
+    if (ott) {
+        res.ott = ott;
+        next();
+    } else {
         res.status(401);
         res.json({
             error: 'Wrong token.'
@@ -29,37 +35,34 @@ exports.checkOTT = function checkOTT(req, res, next) {
 };
 
 exports.sessionCheck = function (req, res) {
-    var uid = req.query.uid
-      , ott = req.query.ott;
-    if (userToOTT[uid] == ott) {
-        userToOTT[uid] = getOTT();
-        req.db.query('SELECT id, username FROM  users WHERE id = ?', [uid], function (err, result) {
-            if (err) {
-                throw err;
-            }
-            result = result[0];
-            result.ott = userToOTT[uid];;
-            res.json(result);
-        });
-    } else {
-        delete userToOTT[uid];
-        res.status(401);
-        res.json({
-            error: 'Wrong token.'
-        });
-    }
-};
-
-exports.auth = function auth(req, res) {
     sync(function () {
-        var user = req.db.query.sync(req.db, 'SELECT id, username, password, salt FROM users WHERE username = ?', [req.query.username + ''])[0];
-        if (!user.length) {
+        var ott = generateOTT(req.query.uid, req.query.ott);;
+        if (ott) {
+            var result = req.db.query.sync(req.db, 'SELECT id, username FROM users WHERE id = ?', [req.query.uid])[0][0];
+            result.ott = ott;
+            res.json(result);
+        } else {
             res.status(401);
             res.json({
                 error: 'Wrong token.'
             });
         }
-        user = user[0];
+    }, function (err) {
+        if (err) {
+            console.log(err);
+        }
+    });
+};
+
+exports.auth = function auth(req, res) {
+    sync(function () {
+        var user = req.db.query.sync(req.db, 'SELECT id, username, password, salt FROM users WHERE username = ?', ['' + req.query.username])[0][0];
+        if (!user) {
+            res.status(401);
+            res.json({
+                error: 'User with this email does not exist.'
+            });
+        }
         var pass = crypto.pbkdf2.sync(null, req.query.password + '', user.salt + '', iterCnt, pwdtLen).toString('hex');
         if (pass == user.password) {
             var ott = getOTT();
@@ -72,7 +75,7 @@ exports.auth = function auth(req, res) {
         } else {
             res.status(401);
             res.json({
-                error: 'Wrong token.'
+                error: 'Wrong email or password.'
             });
         }
     }, function (err) {
