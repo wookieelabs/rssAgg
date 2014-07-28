@@ -8,7 +8,7 @@ function $getParent(elem, tagName) {
 var rss = (function (rss) {
     rss.FeedsView = Backbone.View.extend({
         el: "#feeds",
-        
+
         initialize: function () {
             this.feedsList = this.$('#feedsList');
             this.TPLS = {

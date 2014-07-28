@@ -10,8 +10,12 @@ var rss = (function (rss) {
         },
         model: Backbone.Model.extend({
             parse: function (data) {
-                data.stared = !!data.stared;
-                data.unread = !!data.unread;
+                if (data.hasOwnProperty('stared')) {
+                    data.stared = !!data.stared;
+                }
+                if (data.hasOwnProperty('unread')) {
+                    data.unread = !!data.unread;
+                }
                 return data;
             }
         })
