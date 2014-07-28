@@ -186,12 +186,12 @@ var rss = (function (rss) {
                 model = this.collection.get($li.data('itemid'));
 
             if (model.get('unread')) {
-                // set unread
+                // set read
                 $icon.removeClass('icon-eye-close').addClass('icon-eye-open');
                 $text.text('Unread');
                 model.set('unread', false);
             } else {
-                // set read
+                // set unread
                 $icon.removeClass('icon-eye-open').addClass('icon-eye-close');
                 $text.text('Read');
                 model.set('unread', true);

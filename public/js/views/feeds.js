@@ -20,7 +20,7 @@ var rss = (function (rss) {
                 var mdl = this.collection.get(feed_id),
                     cnt = mdl.get('unread');
 
-                mdl.set('unread', unread ? cnt - 1 : cnt + 1);
+                mdl.set('unread', unread ? cnt + 1 : cnt - 1);
             });
             this.listenTo(this.collection, 'change:unread', this.redrawBadge);
         },
