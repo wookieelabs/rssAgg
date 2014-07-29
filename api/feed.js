@@ -41,7 +41,7 @@ exports.list = function list(req, res) {
                                 'LEFT JOIN users_feeds ON items.feed_id = users_feeds.feed_id',
                                 'LEFT JOIN users_items ON items.id = users_items.item_id AND users_feeds.user_id = users_items.user_id',
                             'WHERE users_feeds.user_id = ? AND items.feed_id = ? AND unread = 1'].join(' ');
-            feed.unread = req.db.query.sync(req.db, unreadQuery, [feed.user_id, feed.feed_id])[0][0].len
+            feed.unread = req.db.query.sync(req.db, unreadQuery, [feed.user_id, feed.feed_id])[0][0].len;
             
                 
             if (feed.folder_name) {

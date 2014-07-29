@@ -10,6 +10,13 @@ function getOrder(value) {
     };
 }
 
+function showFilter(value) {
+    return {
+        'new': 'unread = 1'
+      , 'stared': 'stared = 1'
+    }[value];
+}
+
 function Query(db, from, fields) {
     this._db = db;
     this._fields = fields;
@@ -67,15 +74,20 @@ Query.prototype = {
 
 exports.newsline = function newsline(req, res) {
     sync(function () {
-        var order = getOrder(req.query.order_by),
-            query = new Query(req.db, 'items', 'COUNT(*) AS length')
+        var order = getOrder(req.query.order_by)
+          , filter = showFilter(req.query.filter)
+          , query = new Query(req.db, 'items', 'COUNT(*) AS length')
             .leftJoin('users_feeds', 'items.feed_id = users_feeds.feed_id')
             .leftJoin('users_items', 'items.id = users_items.item_id AND users_feeds.user_id = users_items.user_id')
             .where('users_feeds.user_id = ?')
-            .order(order.by, order.a),
-            
-            from = req.query.from ? Number(req.query.from) : 0,
-            length = query.exec.sync(query, [req.query.uid])[0][0].length;
+            .order(order.by, order.a);
+
+        if (filter) {
+            query.where(filter);
+        }
+
+        var from = req.query.from ? Number(req.query.from) : 0
+          , length = query.exec.sync(query, [req.query.uid])[0][0].length;
 
         query
             .fields('items.*, users_items.stared, users_items.unread')
@@ -99,12 +111,17 @@ exports.newsline = function newsline(req, res) {
 
 exports.list = function list(req, res) {
     sync(function () {
-        var order = getOrder(req.query.order_by),
-            query = new Query(req.db, 'items', 'COUNT(*) AS length')
+        var order = getOrder(req.query.order_by)
+          , filter = showFilter(req.query.filter)
+          , query = new Query(req.db, 'items', 'COUNT(*) AS length')
             .leftJoin('users_feeds', 'items.feed_id = users_feeds.feed_id')
             .leftJoin('users_items', 'items.id = users_items.item_id AND users_feeds.user_id = users_items.user_id')
             .where('users_feeds.user_id = ? AND items.feed_id = ?')
             .order(order.by, order.a);
+
+        if (filter) {
+            query.where(filter);
+        }
 
         var from = req.query.from ? Number(req.query.from) : 0,
             length = query.exec.sync(query, [req.query.uid, req.params.id])[0][0].length;
@@ -124,20 +141,25 @@ exports.list = function list(req, res) {
         });
     }, function (err) {
         if (err) {
-            console.log(err);
+            throw(err);
         }
     });
 };
 
 exports.showNew = function showNew(req, res) {
     sync(function () {
-        var order = getOrder(req.query.order_by),
-            query = new Query(req.db, 'items', 'COUNT(*) AS length')
+        var order = getOrder(req.query.order_by)
+          , filter = showFilter(req.query.filter)
+          , query = new Query(req.db, 'items', 'COUNT(*) AS length')
             .leftJoin('users_feeds', 'items.feed_id = users_feeds.feed_id')
             .leftJoin('users_items', 'items.id = users_items.item_id AND users_feeds.user_id = users_items.user_id')
             .where('users_feeds.user_id = ? AND unread = 1')
             .order(order.by, order.a);
-            
+
+        if (filter) {
+            query.where(filter);
+        }
+
         var from = req.query.from ? Number(req.query.from) : 0,
             length = query.exec.sync(query, [req.query.uid])[0][0].length;
         
@@ -163,12 +185,17 @@ exports.showNew = function showNew(req, res) {
 
 exports.showStared = function showStared(req, res) {
     sync(function () {
-        var order = getOrder(req.query.order_by),
-            query = new Query(req.db, 'items', 'COUNT(*) AS length')
+        var order = getOrder(req.query.order_by)
+          , filter = showFilter(req.query.filter)
+          , query = new Query(req.db, 'items', 'COUNT(*) AS length')
             .leftJoin('users_feeds', 'items.feed_id = users_feeds.feed_id')
             .leftJoin('users_items', 'items.id = users_items.item_id AND users_feeds.user_id = users_items.user_id')
             .where('users_feeds.user_id = ? AND stared = 1')
             .order(order.by, order.a);
+
+        if (filter) {
+            query.where(filter);
+        }
 
         var from = req.query.from ? Number(req.query.from) : 0,
             length = query.exec.sync(query, [req.query.uid])[0][0].length;

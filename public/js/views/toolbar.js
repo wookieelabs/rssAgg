@@ -21,15 +21,24 @@ var rss = (function (rss) {
             return false;
         },
         orderBy: function (evt) {
-            var val = this.$(evt.target).find('option:selected').val().toLowerCase();
-            app.views.itemsView.order = val;
+            var val = this.$(evt.target).find('option:selected').val().toLowerCase()
+              , itemView = app.views.itemsView;
+            itemView.orderBy = val;
             localStorage.orderBy = val;
-            app.views.itemsView.loadFeed(app.views.feedsView.$('.active').data('id'));
+            itemView.loadFeed(itemView.collection.feedId);
+            return false;
+        },
+        filter: function (evt) {
+            var val = this.$(evt.target).find('option:selected').val().toLowerCase()
+              , itemView = app.views.itemsView;
+            itemView.filter = val;
+            itemView.loadFeed(itemView.collection.feedId);
             return false;
         },
         events: {
-            'change #order-by': 'orderBy',
-            'click i.read-all': 'readAll'
+            'change #order-by': 'orderBy'
+          , 'click i.read-all': 'readAll'
+          , 'change #filter': 'filter'
         }
     });
     
