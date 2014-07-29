@@ -31,6 +31,9 @@ var rss = (function (rss) {
                 editFolder: new rss.EditFolder(),
                 toolBar: new rss.ToolBar()
             };
+            this.views.itemsView.on('item-change:unread', function (unread, feed_id) {
+                this.views.feedsView.trigger('item-change:unread', unread, feed_id);
+            }.bind(this));
 
             this.account = new rss.Account();
         },

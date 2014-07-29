@@ -8,7 +8,7 @@ function $getParent(elem, tagName) {
 var rss = (function (rss) {
     rss.FeedsView = Backbone.View.extend({
         el: "#feeds",
-        
+
         initialize: function () {
             this.feedsList = this.$('#feedsList');
             this.TPLS = {
@@ -16,6 +16,13 @@ var rss = (function (rss) {
                 feed: rss.load('/tpls/feed.html'),
                 feedFolder: rss.load('/tpls/feedFolder.html')
             };
+            this.on('item-change:unread', function (unread, feed_id) {
+                var mdl = this.collection.get(feed_id),
+                    cnt = mdl.get('unread');
+
+                mdl.set('unread', unread ? cnt + 1 : cnt - 1);
+            });
+            this.listenTo(this.collection, 'change:unread', this.redrawBadge);
         },
         initializePositioning: function () {
             this.$el.find('ul.nav').sortable({
@@ -135,6 +142,10 @@ var rss = (function (rss) {
         editFolder: function (evt) {
             app.views.editFolder.show($getParent(evt.target, 'li').data('folderid'));
             return false;
+        },
+        redrawBadge: function (model, value) {
+            var id = model.get('feed_id');
+            this.$el.find('li[data-id=' + id + '] > span.badge').html(value ? value: ''); 
         },
         events: {
             'click #feedsList li:not(.folder, ul.iconHolder li)': 'feedClick',

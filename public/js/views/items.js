@@ -18,6 +18,9 @@ var rss = (function (rss) {
 
             this.$('#loader').hide();
             this.listenTo(this.collection, 'add', this.renderItem);
+            this.listenTo(this.collection, 'change:unread', function (model, unread) {
+                this.trigger('item-change:unread', unread, model.get("feed_id"));
+            });
             this.itemsList = this.$('#itemsList');
 
             this.itemsList.on('scroll', this.scrollCheck.bind(this));
@@ -112,7 +115,6 @@ var rss = (function (rss) {
                 id = $el.data('id'),
                 item = this.collection.get(id);
             this.sectedItem = item;
-            this.sectedItem.oldAtt = this.sectedItem.attributes;
 
             $el.addClass('selected');
             $el.find('.teaser').hide();
@@ -121,16 +123,12 @@ var rss = (function (rss) {
                 '<a href="' + item.get('link') + '" target="_blank">' + item.get('title') + '</a>'
             );
 
-            if (this.collection.get(id).attributes.unread == !null ||
-                !(this.collection.get(id).attributes.unread === 0)) {
-                this.collection.get(id).set('unread', 0);
-            }
-
             var $read = $el.find('.item-menu li.unread');
             $read.find('span').text('Unread');
             $read.find('i')
                 .removeClass('icon-eye-close')
                 .addClass('icon-eye-open');
+            item.set('unread', false);
 
             //  add share function
             $el.find('li.share').popover({
@@ -150,19 +148,9 @@ var rss = (function (rss) {
             if (!this.sectedItem) {
                 return false;
             }
-            var feedId = this.sectedItem.attributes.feed_id,
-                unread;
 
             if (this.sectedItem.hasChanged() && !this.sectedItem.hasChanged().ott) {
-                if (this.sectedItem.changedAttributes().unread === 0) {
-                    unread = app.views.feedsView.collection.get(feedId).attributes.unread -= 1;
-                    app.views.feedsView.$el.find('li[data-id =' + feedId + '] span').html(unread > 0 ? unread : '');
-                } else if (this.sectedItem.changedAttributes().unread == 1) {
-                    unread = app.views.feedsView.collection.get(feedId).attributes.unread += 1;
-                    app.views.feedsView.$el.find('li[data-id =' + feedId + '] span').html(unread > 0 ? unread : '');
-                }
-
-                if (fn && (typeof fn) == 'function') {
+                if (typeof fn == 'function') {
                     this.sectedItem.save(null, {success: fn});
                 } else {
                     this.sectedItem.save();
@@ -183,12 +171,12 @@ var rss = (function (rss) {
                 $headIcon.removeClass('icon-star').addClass('icon-star-empty');
                 $icon.removeClass('icon-star').addClass('icon-star-empty');
                 $text.text('Star');
-                model.set('stared', 0);
+                model.set('stared', false);
             } else {
                 $headIcon.removeClass('icon-star-empty').addClass('icon-star');
                 $icon.removeClass('icon-star-empty').addClass('icon-star');
                 $text.text('Unstar');
-                model.set('stared', 1);
+                model.set('stared', true);
             }
         },
         toggleRead: function (evt) {
@@ -198,16 +186,15 @@ var rss = (function (rss) {
                 model = this.collection.get($li.data('itemid'));
 
             if (model.get('unread')) {
-                // set unread
+                // set read
                 $icon.removeClass('icon-eye-close').addClass('icon-eye-open');
                 $text.text('Unread');
-                model.set('unread', 0);
-
+                model.set('unread', false);
             } else {
-                // set read
+                // set unread
                 $icon.removeClass('icon-eye-open').addClass('icon-eye-close');
                 $text.text('Read');
-                model.set('unread', 1);
+                model.set('unread', true);
             }
         },
         clickLink: function (evt) {
