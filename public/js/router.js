@@ -71,8 +71,8 @@ var rss = (function (rss) {
             $('#log-out').show();
         },
         getFeed: function (feedId) {
+            app.views.itemsView.updating = true;
             feedId = feedId || 0;
-            
             this.account.folders.fetch({
                 reset: true,
                 silent: false,

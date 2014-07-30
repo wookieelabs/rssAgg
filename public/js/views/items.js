@@ -40,7 +40,6 @@ var rss = (function (rss) {
                     && this.itemsList.scrollTop() + this.itemsList.height() == this.itemsList.prop("scrollHeight")) {
                 this.updating = true;
                 this.$('#loader').show();
-                
                 this.collection.fetch({
                     remove: false,
                     silent: false,

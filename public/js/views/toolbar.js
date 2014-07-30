@@ -6,17 +6,19 @@ var rss = (function (rss) {
             
         },
         readAll: function () {
+            var feedId = app.views.itemsView.collection.feedId;
             Backbone.ajax({
                 url: '/readAll?uid=' + app.account.get('id') + '&ott=' + app.account.get('ott'),
                 type: 'POST',
                 data: {
-                    id: app.views.feedsView.$('.active').data('id')
+                    id: feedId
                 }
             }).success(function (data) {
                 app.account.set('ott', data.ott);
                 localStorage.ott = data.ott;
+
                 app.reset();
-                app.start();
+                app.getFeed(feedId);
             });
             return false;
         },
@@ -41,6 +43,5 @@ var rss = (function (rss) {
           , 'change #filter': 'filter'
         }
     });
-    
     return rss;
 }(rss || {}));
